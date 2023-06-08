@@ -1,0 +1,6 @@
+
+[23-Apr-2019 08:06:41 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_connect() in /home/mbtifore/public_html/inc/koneksi.php:4
+Stack trace:
+#0 /home/mbtifore/public_html/login_proses.php(3): include()
+#1 {main}
+  thrown in /home/mbtifore/public_html/inc/koneksi.php on line 4
