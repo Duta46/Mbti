@@ -9,7 +9,7 @@ if(isset($_SESSION['account_myers_briggs']) && ($_SESSION['account_myers_briggs'
 	$waktu_selesai = selisih($_SESSION['waktu_selesai']);
 
 	$sql_mhs = "SELECT * FROM mahasiswa mhs JOIN account a ON mhs.id_mahasiswa=a.id_mahasiswa WHERE username='".$_SESSION['account_myers_briggs']['username']."' AND divisi='Mahasiswa'";
-	$eks_mhs	= mysqli_query($sql_mhs);
+	$eks_mhs	= mysqli_query($truecont, $sql_mhs);
 	$hasil_mhs	= mysqli_fetch_array($eks_mhs);
 	?>
 
@@ -27,7 +27,7 @@ if(isset($_SESSION['account_myers_briggs']) && ($_SESSION['account_myers_briggs'
 			$nilai_kategori = null;
 			//Cek Query
 			$sql_konten = "SELECT id_soal, id_kategori FROM konten_soal WHERE kode_soal='".$kode_soal."'";
-			$eks_konten = mysqli_query("SELECT id_soal, id_kategori FROM konten_soal WHERE kode_soal='".$kode_soal."'");
+			$eks_konten = mysqli_query($truecont, "SELECT id_soal, id_kategori FROM konten_soal WHERE kode_soal='".$kode_soal."'");
 			while($hasil_konten = mysqli_fetch_array($eks_konten)){
 				if(isset($konten_soal[$hasil_konten['id_soal']][$hasil_konten['id_kategori']])){
 					$konten_soal[$hasil_konten['id_soal']][$hasil_konten['id_kategori']] += $bobot;
@@ -65,7 +65,7 @@ if(isset($_SESSION['account_myers_briggs']) && ($_SESSION['account_myers_briggs'
 		}
 
 		//Ambil Data Tipe Kepribadian
-		$sql_cek = mysqli_query("SELECT * FROM tipe_kepribadian WHERE nama='".$tipekepribadian."'");
+		$sql_cek = mysqli_query($truecont, "SELECT * FROM tipe_kepribadian WHERE nama='".$tipekepribadian."'");
 		if (mysqli_num_rows($sql_cek)>0){
 
 			$hasil_cek = mysqli_fetch_array($sql_cek);
@@ -75,13 +75,13 @@ if(isset($_SESSION['account_myers_briggs']) && ($_SESSION['account_myers_briggs'
 			$sql_result = "INSERT INTO result (`id_result`, `id_tipekepribadian`, `id_mahasiswa`, `tgl_pengerjaan`, `waktu_selesai`) 
 						VALUES ('".$id_result."', '".$hasil_cek['id_tipekepribadian']."', '".$hasil_mhs['id_mahasiswa']."', now(), '".$waktu_selesai."')";
 					
-			if(mysqli_query($sql_result))
+			if(mysqli_query($truecont, $sql_result))
 			{
 				//Simpan Nilai Result
 				foreach($_SESSION['total'] as $kode_soal=>$bobot){
 					$sql_nilai = "INSERT INTO nilai (`id_result`, `kode_soal`, `nilai`) 
 						VALUES ('".$id_result."', '".$kode_soal."', '".$bobot."')";
-					mysqli_query($sql_nilai);
+					mysqli_query($truecont, $sql_nilai);
 				}
 				
 			}

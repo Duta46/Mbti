@@ -66,13 +66,13 @@
 				  <select class="selectpicker" id="id_dpa" name="id_dpa" data-live-search="true" data-size="5" data-width="100%" required>
 						<option value="">Pilih DPA</option>
 						<?php
-						$sql_ta = mysql_query("SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
-						while($hasil_ta = mysql_fetch_array($sql_ta)){
+						$sql_ta = mysqli_query($truecont, "SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
+						while($hasil_ta = mysqli_fetch_array($sql_ta)){
 						?>
 							<optgroup label="<?php echo $hasil_ta['nama_th_ajaran'];?>">
 						<?php
-							$sql_dpa = mysql_query("SELECT * FROM dpa WHERE id_th_ajaran='".$hasil_ta['id_th_ajaran']."' ORDER BY nip");
-							while($hasil_dpa = mysql_fetch_array($sql_dpa)){
+							$sql_dpa = mysqli_query($truecont, "SELECT * FROM dpa WHERE id_th_ajaran='".$hasil_ta['id_th_ajaran']."' ORDER BY nip");
+							while($hasil_dpa = mysqli_fetch_array($sql_dpa)){
 						?>
 							<option value="<?php echo $hasil_dpa['id_dpa'];?>"><?php echo $hasil_dpa['nip'].'-'.$hasil_dpa['nama'];?></option>
 						<?php

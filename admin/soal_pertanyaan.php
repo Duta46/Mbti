@@ -2,14 +2,14 @@
 $status = FALSE;
 if(isset($_GET['id_soal'])){
 	//CEK DATA DI DATABASE
-	$sql_cek = mysql_query("SELECT * FROM soal WHERE id_soal='".$_GET['id_soal']."'");
-	if (mysql_num_rows($sql_cek) > 0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM soal WHERE id_soal='".$_GET['id_soal']."'");
+	if (mysqli_num_rows($sql_cek) > 0){
 		$status = TRUE;
 	}
 }
 
 if($status){
-	$hasil_soal = mysql_fetch_array($sql_cek);
+	$hasil_soal = mysqli_fetch_array($sql_cek);
 ?>
 <div class="row">
 
@@ -41,8 +41,8 @@ $batas  = 10;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM kategori k JOIN konten_soal ks ON k.id_kategori=ks.id_kategori WHERE 1 $where");
-$jmldata = mysql_num_rows($results);
+$results = mysqli_query($truecont, "SELECT * FROM kategori k JOIN konten_soal ks ON k.id_kategori=ks.id_kategori WHERE 1 $where");
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'soal_pertanyaan'.$paging, $jmldata);
@@ -76,8 +76,8 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'soal_pertanyaan'.$pag
 									<select class="selectpicker" id="id_kategori" name="id_kategori" data-live-search="true" data-size="5" data-width="100%">
 										<option value="">Pilih Kategori</option>
 										<?php
-										$sql_kat = mysql_query("SELECT * FROM kategori ORDER BY nama_kategori");
-										while($hasil_kat = mysql_fetch_array($sql_kat)){
+										$sql_kat = mysqli_query($truecont, "SELECT * FROM kategori ORDER BY nama_kategori");
+										while($hasil_kat = mysqli_fetch_array($sql_kat)){
 										?>
 											<option value="<?php echo $hasil_kat['id_kategori'];?>" <?php echo ($hasil_kat['id_kategori']==$id_kategori)?'selected':'';?>><?php echo $hasil_kat['id_kategori'].' - '.$hasil_kat['nama_kategori'];?></option>
 										<?php
@@ -115,14 +115,14 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'soal_pertanyaan'.$pag
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT *
+				$sql = mysqli_query($truecont, "SELECT *
 					FROM kategori k JOIN konten_soal ks ON k.id_kategori=ks.id_kategori
 					WHERE 1 $where 
 					ORDER BY k.id_kategori, kode_soal
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
+				if(mysqli_num_rows($sql)>0){
 					$no=1+$posisi;
-					while($hasil = mysql_fetch_array($sql)) { 
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 						<td><?php echo $no++;?></td>

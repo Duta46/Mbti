@@ -1,7 +1,4 @@
 <div class="row">
-
-  
-
 <?php
 $paging = "";
 $where	= "";
@@ -20,8 +17,8 @@ $batas  = 5;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM jawaban WHERE 1 $where");
-$jmldata = mysql_num_rows($results);
+$results = mysqli_query($truecont, "SELECT * FROM jawaban WHERE 1 $where");
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'jawaban'.$paging, $jmldata);
@@ -66,13 +63,13 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'jawaban'.$paging, $jm
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT *
+				$sql = mysqli_query($truecont, "SELECT *
 					FROM jawaban
 					WHERE 1 $where 
 					ORDER BY bobot, nama_jawaban 
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
-					while($hasil = mysql_fetch_array($sql)) { 
+				if(mysqli_num_rows($sql)>0){
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 						<td><?php echo $hasil['bobot'];?></td>

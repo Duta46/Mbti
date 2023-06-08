@@ -36,8 +36,8 @@
 				  <select class="selectpicker" id="id_th_ajaran" name="id_th_ajaran" data-live-search="true" data-size="5" data-width="100%" required>
 						<option value="">Pilih Tahun Ajaran</option>
 						<?php
-						$sql_ta = mysql_query("SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
-						while($hasil_ta = mysql_fetch_array($sql_ta)){
+						$sql_ta = mysqli_query($truecont, "SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
+						while($hasil_ta = mysqli_fetch_array($sql_ta)){
 						?>
 							<option value="<?php echo $hasil_ta['id_th_ajaran'];?>"><?php echo $hasil_ta['nama_th_ajaran'];?></option>
 						<?php

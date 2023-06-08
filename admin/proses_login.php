@@ -11,10 +11,10 @@ if ($username == "" or $password == "") {
 
 } else{
 
-    $query = mysql_query("SELECT * FROM account WHERE username = '".$username."' AND password = '".md5($password)."' AND divisi = 'Administrator'");
+    $query = mysqli_query($truecont, "SELECT * FROM account WHERE username = '".$username."' AND password = '".md5($password)."' AND divisi = 'Administrator'");
 
-    $rows1 = mysql_fetch_array($query);
-    $rows  = mysql_num_rows($query);
+    $rows1 = mysqli_fetch_array($query);
+    $rows  = mysqli_num_rows($query);
     if ($rows == 0) {
 
         echo "<script>alert('username dan atau password salah')</script>";

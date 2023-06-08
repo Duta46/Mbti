@@ -12,8 +12,8 @@ if(isset($_POST['simpan'])){
 	$id_jawaban		= kode_otomatis("jawaban", "id_jawaban", "", "", "");
 	
 	//Cek Jawaban
-	$sql_cek = mysql_query("SELECT * FROM jawaban WHERE (nama_jawaban='".$nama_jawaban."' OR bobot='".$bobot."')");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query( $truecont, "SELECT * FROM jawaban WHERE (nama_jawaban='".$nama_jawaban."' OR bobot='".$bobot."')");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('No Urut $bobot / Jawaban $nama_jawaban sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -22,7 +22,7 @@ if(isset($_POST['simpan'])){
 		//Menyimpan data
 		$sql = "INSERT INTO jawaban (`id_jawaban`, `nama_jawaban`, `bobot`) VALUES ('".$id_jawaban."', '".$nama_jawaban."', '".$bobot."')";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Jawaban Berhasil Disimpan')</script>";
 			//arahkan
@@ -42,8 +42,8 @@ if(isset($_POST['simpan'])){
 	$nama_jawaban	= trim($_POST['nama_jawaban']);
 	
 	//Cek Jawaban
-	$sql_cek = mysql_query("SELECT * FROM jawaban WHERE (nama_jawaban='".$nama_jawaban."' OR bobot='".$bobot."') AND id_jawaban<>'".$id_jawaban."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM jawaban WHERE (nama_jawaban='".$nama_jawaban."' OR bobot='".$bobot."') AND id_jawaban<>'".$id_jawaban."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('No Urut $bobot / Jawaban $nama_jawaban sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -52,7 +52,7 @@ if(isset($_POST['simpan'])){
 		//Menyimpan data
 		$sql = "UPDATE jawaban SET bobot='".$bobot."', nama_jawaban='".$nama_jawaban."' WHERE id_jawaban='".$id_jawaban."'";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Jawaban Berhasil Disimpan')</script>";
 			//arahkan
@@ -68,7 +68,7 @@ if(isset($_POST['simpan'])){
 }else if(isset($_GET['hapus'])){
 	
 	$sql = "DELETE FROM jawaban WHERE id_jawaban='".$_GET['hapus']."'";
-	if(mysql_query($sql))
+	if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Jawaban Berhasil Dihapus')</script>";
 			//arahkan

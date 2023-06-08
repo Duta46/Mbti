@@ -20,8 +20,8 @@ if(isset($_GET['id']) && isset($_GET['idResult'])){
     //HITUNG JUMLAH SOAL
     $jmlSoal    = 0;
     $sql_soal   = "SELECT * FROM soal";
-    $eks_soal   = mysql_query($sql_soal);
-    while($hasil_soal = mysql_fetch_array($eks_soal)){
+    $eks_soal   = mysqli_query($truecont, $sql_soal);
+    while($hasil_soal = mysqli_fetch_array($eks_soal)){
         $jmlSoal += 1;
         $soal[$jmlSoal]['id_soal']   = $hasil_soal['id_soal'];
         $soal[$jmlSoal]['nama_soal'] = $hasil_soal['nama_soal'];
@@ -40,8 +40,8 @@ if(isset($_GET['id']) && isset($_GET['idResult'])){
         WHERE mahasiswa.id_mahasiswa='".$id_mahasiswa."'
         AND result.id_result = $id_result";
 
-    $run = mysql_query($sql);
-    $data = mysql_fetch_array($run);
+    $run = mysqli_query($truecont, $sql);
+    $data = mysqli_fetch_array($run);
 
 ?>
 
@@ -75,9 +75,9 @@ if(isset($_GET['id']) && isset($_GET['idResult'])){
 <?php
 //KATEGORI
 $kategori = array();
-$sql_kategori = mysql_query("SELECT * FROM kategori ORDER BY nama_kategori ");
+$sql_kategori = mysqli_query($truecont, "SELECT * FROM kategori ORDER BY nama_kategori ");
 
-while($hasil_kategori = mysql_fetch_array($sql_kategori)) { 
+while($hasil_kategori = mysqli_fetch_array($sql_kategori)) { 
     $kategori[$hasil_kategori['id_kategori']] = $hasil_kategori['nama_kategori'];
 }
 ?>
@@ -137,8 +137,8 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
                 JOIN konten_soal ks ON k.id_kategori=ks.id_kategori 
                 WHERE id_soal='".$soal[$urutan_soal]['id_soal']."'
                 GROUP BY k.id_kategori ORDER BY k.id_kategori";
-    $eks_konten = mysql_query($sql_konten);
-    while($hasil_konten = mysql_fetch_array($eks_konten)){
+    $eks_konten = mysqli_query($truecont, $sql_konten);
+    while($hasil_konten = mysqli_fetch_array($eks_konten)){
         $jmlKategori += 1;
         $kategori[$jmlKategori]['id_kategori']      = $hasil_konten['id_kategori'];
         $kategori[$jmlKategori]['nama_kategori']    = $hasil_konten['nama_kategori'];
@@ -167,8 +167,8 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
     $sql_soal = "SELECT * FROM konten_soal
     WHERE  id_kategori='".$kategori[1]['id_kategori']."'
     ORDER BY kode_soal";
-    $eks_soal = mysql_query($sql_soal);
-    while($hasil_soal = mysql_fetch_array($eks_soal)){
+    $eks_soal = mysqli_query($truecont, $sql_soal);
+    while($hasil_soal = mysqli_fetch_array($eks_soal)){
         $soal_1[$no_urut]['kode_soal']   = $hasil_soal['kode_soal'];
         $soal_1[$no_urut]['id_soal']     = $hasil_soal['id_soal'];
         $soal_1[$no_urut]['nama_konten'] = $hasil_soal['nama_konten'];
@@ -180,8 +180,8 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
     $sql_soal = "SELECT * FROM konten_soal
     WHERE  id_kategori='".$kategori[2]['id_kategori']."'
     ORDER BY kode_soal";
-    $eks_soal = mysql_query($sql_soal);
-    while($hasil_soal = mysql_fetch_array($eks_soal)){
+    $eks_soal = mysqli_query($truecont, $sql_soal);
+    while($hasil_soal = mysqli_fetch_array($eks_soal)){
         $soal_2[$no_urut]['kode_soal']   = $hasil_soal['kode_soal'];
         $soal_2[$no_urut]['id_soal']     = $hasil_soal['id_soal'];
         $soal_2[$no_urut]['nama_konten'] = $hasil_soal['nama_konten'];
@@ -208,9 +208,9 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
                 FROM nilai
                 WHERE kode_soal ='".$arr['kode_soal']."'
                 AND id_result = '".$id_result."'";
-                $eks_konten = mysql_query($sql_konten);
-                if(mysql_num_rows($eks_konten)>0){
-                    while($hasil_konten = mysql_fetch_array($eks_konten)){
+                $eks_konten = mysqli_query($truecont,$sql_konten);
+                if(mysqli_num_rows($eks_konten)>0){
+                    while($hasil_konten = mysqli_fetch_array($eks_konten)){
                         $nilai = $hasil_konten['nilai'];
                         $jml_kiri += $nilai;
                     }
@@ -236,9 +236,9 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
                 FROM nilai
                 WHERE kode_soal ='".$soal_2[$no_urut]['kode_soal']."'
                 AND id_result = '".$id_result."'";
-                $eks_konten = mysql_query($sql_konten);
-                if(mysql_num_rows($eks_konten)>0){
-                    while($hasil_konten = mysql_fetch_array($eks_konten)){
+                $eks_konten = mysqli_query($truecont, $sql_konten);
+                if(mysqli_num_rows($eks_konten)>0){
+                    while($hasil_konten = mysqli_fetch_array($eks_konten)){
                         $nilai = $hasil_konten['nilai'];
                         $jml_kanan += $nilai;
                     }

@@ -20,8 +20,8 @@ $batas  = 10;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM soal WHERE 1 $where");
-$jmldata = mysql_num_rows($results);
+$results = mysqli_query($truecont, "SELECT * FROM soal WHERE 1 $where");
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'soal'.$paging, $jmldata);
@@ -76,13 +76,13 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'soal'.$paging, $jmlda
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT *
+				$sql = mysqli_query($truecont, "SELECT *
 					FROM soal
 					WHERE 1 $where 
 					ORDER BY no_urut, id_soal, nama_soal 
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
-					while($hasil = mysql_fetch_array($sql)) { 
+				if(mysqli_num_rows($sql)>0){
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 						<td><?php echo $hasil['no_urut'];?></td>

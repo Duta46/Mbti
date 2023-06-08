@@ -21,9 +21,9 @@ $batas  = 10;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM mahasiswa m LEFT JOIN dpa ON m.id_dpa=dpa.id_dpa LEFT JOIN result r ON m.id_mahasiswa=r.id_mahasiswa LEFT JOIN tipe_kepribadian tk ON r.id_tipekepribadian=tk.id_tipekepribadian WHERE 1 $where Group by m.id_mahasiswa");
+$results = mysqli_query($truecont, "SELECT * FROM mahasiswa m LEFT JOIN dpa ON m.id_dpa=dpa.id_dpa LEFT JOIN result r ON m.id_mahasiswa=r.id_mahasiswa LEFT JOIN tipe_kepribadian tk ON r.id_tipekepribadian=tk.id_tipekepribadian WHERE 1 $where Group by m.id_mahasiswa");
 
-$jmldata = mysql_num_rows($results);
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $jmldata);
@@ -71,7 +71,7 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT m.id_mahasiswa, m.nim, m.nama, m.alamat, m.email, m.foto, m.indeks_prestasi, dpa.nip, dpa.nama as nama_dpa, tk.nama nama_kepribadian
+				$sql = mysqli_query($truecont, "SELECT m.id_mahasiswa, m.nim, m.nama, m.alamat, m.email, m.foto, m.indeks_prestasi, dpa.nip, dpa.nama as nama_dpa, tk.nama nama_kepribadian
 					FROM mahasiswa m LEFT JOIN dpa ON m.id_dpa=dpa.id_dpa 
 					LEFT JOIN result r ON m.id_mahasiswa=r.id_mahasiswa
 					LEFT JOIN tipe_kepribadian tk ON r.id_tipekepribadian=tk.id_tipekepribadian
@@ -79,8 +79,8 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $
 					Group by m.id_mahasiswa
 					ORDER BY nim 
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
-					while($hasil = mysql_fetch_array($sql)) { 
+				if(mysqli_num_rows($sql)>0){
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 						<td>
@@ -100,11 +100,11 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $
 						<td><?php echo $hasil['indeks_prestasi'];?></td>
 						<td>
 						<?php 
-						$sql_k = mysql_query("SELECT nama
+						$sql_k = mysqli_query( $truecont, "SELECT nama
 						FROM tipe_kepribadian tk JOIN result r ON tk.id_tipekepribadian=r.id_tipekepribadian
 						WHERE id_mahasiswa='".$hasil['id_mahasiswa']."'
 						ORDER BY tgl_pengerjaan DESC limit 1");
-						while($hasil_k = mysql_fetch_array($sql_k)) { 
+						while($hasil_k = mysqli_fetch_array($sql_k)) { 
 							echo $hasil_k['nama'];
 							echo "<br />";
 						}

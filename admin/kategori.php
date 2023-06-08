@@ -1,8 +1,6 @@
 <div class="row">
 
-  
-
-<?php
+  <?php
 $paging = "";
 $where	= "";
 if(isset($_REQUEST['nama']) && $_REQUEST['nama']!='')
@@ -20,8 +18,8 @@ $batas  = 10;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM kategori WHERE 1 $where");
-$jmldata = mysql_num_rows($results);
+$results = mysqli_query( $truecont, "SELECT * FROM kategori WHERE 1 $where");
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'kategori'.$paging, $jmldata);
@@ -66,13 +64,13 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'kategori'.$paging, $j
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT *
+				$sql = mysqli_query($truecont, "SELECT *
 					FROM kategori
 					WHERE 1 $where 
 					ORDER BY nama_kategori 
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
-					while($hasil = mysql_fetch_array($sql)) { 
+				if(mysqli_num_rows($sql)>0){
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 						<td><?php echo $hasil['id_kategori'];?></td>

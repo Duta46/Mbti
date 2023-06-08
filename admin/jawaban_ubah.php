@@ -2,14 +2,14 @@
 $status = FALSE;
 if(isset($_GET['id'])){
 	//CEK DATA DI DATABASE
-	$sql_cek = mysql_query("SELECT * FROM jawaban WHERE id_jawaban='".$_GET['id']."'");
-	if (mysql_num_rows($sql_cek) > 0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM jawaban WHERE id_jawaban='".$_GET['id']."'");
+	if (mysqli_num_rows($sql_cek) > 0){
 		$status = TRUE;
 	}
 }
 
 if($status){
-	$hasil = mysql_fetch_array($sql_cek);
+	$hasil = mysqli_fetch_array($sql_cek);
 ?>
 <div class="row">
 

@@ -93,9 +93,9 @@ $_SESSION['waktu_selesai'] = date("H:i:s");
             <h5 style="text-align: center; margin-top: 0px;">
             <?php
             $sql_jawaban = "SELECT * FROM jawaban ORDER BY bobot, nama_jawaban";
-            $eks_jawaban = mysql_query($sql_jawaban);
+            $eks_jawaban = mysqli_query($truecont, $sql_jawaban);
             $no=0;
-            while($hasil_jawaban = mysql_fetch_array($eks_jawaban)){
+            while($hasil_jawaban = mysqli_fetch_array($eks_jawaban)){
                 echo $no.' - '.$hasil_jawaban['nama_jawaban'].'&nbsp; &nbsp; &nbsp; &nbsp;';
                 $no++;
             }
@@ -143,14 +143,14 @@ $_SESSION['waktu_selesai'] = date("H:i:s");
 //HITUNG JUMLAH SOAL
 $jmlSoal    = 0;
 $sql_soal   = "SELECT * FROM soal";
-$eks_soal   = mysql_query($sql_soal);
-while($hasil_soal = mysql_fetch_array($eks_soal)){
+$eks_soal   = mysqli_query($truecont, $sql_soal);
+while($hasil_soal = mysqli_fetch_array($eks_soal)){
     //JUMLAH KONTEN SOAL
     $sql_konten = "SELECT id_kategori FROM konten_soal 
                 WHERE id_soal='".$hasil_soal['id_soal']."'
                 GROUP BY id_kategori ORDER BY id_kategori";
-    $eks_konten = mysql_query($sql_konten);
-    while($hasil_konten = mysql_fetch_array($eks_konten)){
+    $eks_konten = mysqli_query($truecont, $sql_konten);
+    while($hasil_konten = mysqli_fetch_array($eks_konten)){
         $jmlSoal += 1;
     }
 }

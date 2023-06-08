@@ -12,8 +12,8 @@ if(isset($_POST['simpan'])){
 	$id_soal	= kode_otomatis("soal", "id_soal", "", "", "");
 	
 	//Cek Soal
-	$sql_cek = mysql_query("SELECT * FROM soal WHERE (nama_soal='".$nama_soal."' OR no_urut='".$no_urut."')");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont,"SELECT * FROM soal WHERE (nama_soal='".$nama_soal."' OR no_urut='".$no_urut."')");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Kategori, Nama Soal, No Urut sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -22,7 +22,7 @@ if(isset($_POST['simpan'])){
 		//Menyimpan data
 		$sql = "INSERT INTO soal (`id_soal`, `no_urut`, `nama_soal`) VALUES ('".$id_soal."', '".$no_urut."', '".$nama_soal."')";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Soal Berhasil Disimpan')</script>";
 			//arahkan
@@ -42,8 +42,8 @@ if(isset($_POST['simpan'])){
 	$nama_soal	= trim($_POST['nama_soal']);
 	
 	//Cek Soal
-	$sql_cek = mysql_query("SELECT * FROM soal WHERE (nama_soal='".$nama_soal."' OR no_urut='".$no_urut."') AND id_soal<>'".$id_soal."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont,"SELECT * FROM soal WHERE (nama_soal='".$nama_soal."' OR no_urut='".$no_urut."') AND id_soal<>'".$id_soal."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Kategori, Nama Soal, No Urut sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -52,7 +52,7 @@ if(isset($_POST['simpan'])){
 		//Menyimpan data
 		$sql = "UPDATE soal SET no_urut='".$no_urut."', nama_soal='".$nama_soal."' WHERE id_soal='".$id_soal."'";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Soal Berhasil Disimpan')</script>";
 			//arahkan
@@ -68,7 +68,7 @@ if(isset($_POST['simpan'])){
 }else if(isset($_GET['hapus'])){
 	
 	$sql = "DELETE FROM soal WHERE id_soal='".$_GET['hapus']."'";
-	if(mysql_query($sql))
+	if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Soal Berhasil Dihapus')</script>";
 			//arahkan

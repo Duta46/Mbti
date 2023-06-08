@@ -2,14 +2,14 @@
 $status = FALSE;
 if(isset($_GET['id'])){
 	//CEK DATA DI DATABASE
-	$sql_cek = mysql_query("SELECT * FROM tipe_kepribadian WHERE id_tipekepribadian='".$_GET['id']."'");
-	if (mysql_num_rows($sql_cek) > 0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM tipe_kepribadian WHERE id_tipekepribadian='".$_GET['id']."'");
+	if (mysqli_num_rows($sql_cek) > 0){
 		$status = TRUE;
 	}
 }
 
 if($status){
-	$hasil = mysql_fetch_array($sql_cek);
+	$hasil = mysqli_fetch_array($sql_cek);
 ?>
 <div class="row">
 
@@ -28,8 +28,8 @@ if($status){
 			  		<h4 style="text-align: center; margin-top: 0px;">
 		            <?php
 		            $sql_kategori = "SELECT * FROM kategori ORDER BY id_kategori";
-		            $eks_kategori = mysql_query($sql_kategori);
-		            while($hasil_kategori = mysql_fetch_array($eks_kategori)){
+		            $eks_kategori = mysqli_query($truecont,$sql_kategori);
+		            while($hasil_kategori = mysqli_fetch_array($eks_kategori)){
 		                $id_kategori = substr($hasil_kategori['id_kategori'], 0,1);
 		                echo '<b>'.$id_kategori.'</b>'.' - '.$hasil_kategori['nama_kategori'].'&nbsp; &nbsp; &nbsp; &nbsp;';
 		            }

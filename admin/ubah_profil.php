@@ -1,13 +1,13 @@
 <?php
 $status = FALSE;
 //CEK DATA DI DATABASE
-$sql_cek = mysql_query("SELECT * FROM account WHERE id_account='".$_SESSION['account_myers_briggs']['id']."'");
-if (mysql_num_rows($sql_cek) > 0){
+$sql_cek = mysqli_query($truecont, "SELECT * FROM account WHERE id_account='".$_SESSION['account_myers_briggs']['id']."'");
+if (mysqli_num_rows($sql_cek) > 0){
 	$status = TRUE;
 }
 
 if($status){
-	$hasil = mysql_fetch_array($sql_cek);
+	$hasil = mysqli_fetch_array($sql_cek);
 ?>
 <div class="row">
 	<div class="col-md-12">

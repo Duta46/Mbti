@@ -10,7 +10,7 @@ require_once '../inc/classPaging.php';
 @$hal = $_GET['hal'];
 
 $sql_mhs = "SELECT * FROM mahasiswa mhs JOIN account a ON mhs.id_mahasiswa=a.id_mahasiswa WHERE username='".$_SESSION['account_myers_briggs']['username']."' AND divisi='Mahasiswa'";
-$eks_mhs	= mysqli_query($sql_mhs);
+$eks_mhs	= mysqli_query($truecont, $sql_mhs);
 $hasil_mhs	= mysqli_fetch_array($eks_mhs);
 ?>
 <!DOCTYPE HTML>

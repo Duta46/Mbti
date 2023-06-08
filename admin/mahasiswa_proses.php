@@ -19,15 +19,15 @@ if(isset($_POST['simpan'])){
 	$id_mahasiswa	= kode_otomatis("mahasiswa", "id_mahasiswa", "", "", "");
 	
 	//Cek NIM dan DPA
-	$sql_cek = mysql_query("SELECT * FROM mahasiswa WHERE id_dpa='".$id_dpa."' AND nim='".$nim."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM mahasiswa WHERE id_dpa='".$id_dpa."' AND nim='".$nim."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('DPA dan NIM $nim sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
 	}else{
 		//Cek Account
-		$sql_cek = mysql_query("SELECT * FROM account WHERE username='".$username."' AND divisi='Mahasiswa'");
-		if (mysql_num_rows($sql_cek)>0){
+		$sql_cek = mysqli_query($truecont, "SELECT * FROM account WHERE username='".$username."' AND divisi='Mahasiswa'");
+		if (mysqli_num_rows($sql_cek)>0){
 			echo "<script>alert('Username $username sudah ada sebelumnya')</script>";
 			//arahkan
 			echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -59,20 +59,20 @@ if(isset($_POST['simpan'])){
 			//Menyimpan data
 			$sql = "INSERT INTO mahasiswa (`id_mahasiswa`, `id_dpa`, `nim`, `nama`, `alamat`, `email`, `program_studi`, `indeks_prestasi`, `foto`) VALUES ('".$id_mahasiswa."', '".$id_dpa."', '".$nim."', '".$nama."', '".$alamat."', '".$email."', '".$program_studi."', '".$indeks_prestasi."', '".$nama_foto."')";
 			
-			if(mysql_query($sql))
+			if(mysqli_query($truecont,$sql))
 			{
 				$id_account			= kode_otomatis("account", "id_account", "", "", "");
 				//Simpan Account
 				$sql_account = "INSERT INTO account (`id_account`, `id_mahasiswa`, `nama`, `username`, `password`, `divisi`) 
 				VALUES ('".$id_account."', '".$id_mahasiswa."', '".$nama."', '".$username."', '".md5($password)."', 'Mahasiswa')";
-				if(mysql_query($sql_account))
+				if(mysqli_query($truecont, $sql_account))
 				{
 					echo "<script>alert('Data Mahasiswa Berhasil Disimpan')</script>";
 					//arahkan
 					echo "<script>window.location='index.php?hal=mahasiswa';</script>";	
 				}else{
 					//Hapus Mahasiswa 
-					mysq_query("DELETE FROM mahasiswa WHERE id_mahasiswa='".$id_mahasiswa."'");
+					mysqli_query($truecont, "DELETE FROM mahasiswa WHERE id_mahasiswa='".$id_mahasiswa."'");
 
 					echo "<script>alert('Data Mahasiswa Gagal Disimpan')</script>";
 					//arahkan
@@ -101,15 +101,15 @@ if(isset($_POST['simpan'])){
 	$password		= trim($_POST['password']);
 	
 	//Cek NIM dan DPA
-	$sql_cek = mysql_query("SELECT * FROM mahasiswa WHERE id_dpa='".$id_dpa."' AND nim='".$nim."' AND id_mahasiswa<>'".$id_mahasiswa."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM mahasiswa WHERE id_dpa='".$id_dpa."' AND nim='".$nim."' AND id_mahasiswa<>'".$id_mahasiswa."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('DPA dan NIM $nim sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
 	}else{
 		//Cek Account
-		$sql_cek = mysql_query("SELECT * FROM account WHERE username='".$username."' AND divisi='Mahasiswa' AND id_mahasiswa<>'".$id_mahasiswa."'");
-		if (mysql_num_rows($sql_cek)>0){
+		$sql_cek = mysqli_query($truecont, "SELECT * FROM account WHERE username='".$username."' AND divisi='Mahasiswa' AND id_mahasiswa<>'".$id_mahasiswa."'");
+		if (mysqli_num_rows($sql_cek)>0){
 			echo "<script>alert('Username $username sudah ada sebelumnya')</script>";
 			//arahkan
 			echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -145,26 +145,26 @@ if(isset($_POST['simpan'])){
 			SET `id_dpa`='".$id_dpa."', `nim`='".$nim."', `nama`='".$nama."', `email`='".$email."', `alamat`='".$alamat."', `program_studi`='".$program_studi."', `indeks_prestasi`='".$indeks_prestasi."'
 			WHERE `id_mahasiswa`='".$id_mahasiswa."'";
 			
-			if(mysql_query($sql))
+			if(mysqli_query($truecont, $sql))
 			{
 				//Ubah Foto
 				if($nama_foto!=""){
 					$sql_foto = "UPDATE mahasiswa 
 					SET `foto`='".$nama_foto."'
 					WHERE `id_mahasiswa`='".$id_mahasiswa."'";
-					mysql_query($sql_foto);
+					mysqli_query($truecont, $sql_foto);
 				}
 				//Ubah Account
 				$sql_account = "UPDATE account 
 				SET `nama`='".$nama."', `username`'".$username."'
 				WHERE `id_mahasiswa`='".$id_mahasiswa."'";
-				mysql_query($sql_account);
+				mysqli_query($truecont, $sql_account);
 				//Ubah Password
 				if($password!=""){
 					$sql_password = "UPDATE account 
 					SET `password`='".md5($password)."'
 					WHERE `id_mahasiswa`='".$id_mahasiswa."'";
-					mysql_query($sql_password);
+					mysqli_query($truecont, $sql_password);
 				}
 
 				echo "<script>alert('Data Mahasiswa Berhasil Diubah')</script>";
@@ -182,10 +182,10 @@ if(isset($_POST['simpan'])){
 }else if(isset($_GET['hapus'])){
 	$foto = $_GET['foto'];
 	$sql = "DELETE FROM mahasiswa WHERE id_mahasiswa='".$_GET['hapus']."'";
-	if(mysql_query($sql))
+	if(mysqli_query($truecont, $sql))
 	{
 		//Hapus Account
-		mysql_query("DELETE FROM account WHERE id_mahasiswa='".$_GET['hapus']."'");
+		mysqli_query($truecont, "DELETE FROM account WHERE id_mahasiswa='".$_GET['hapus']."'");
 
 		//Hapus Foto
 		$folder = "../uploaded/mahasiswa/".$foto;

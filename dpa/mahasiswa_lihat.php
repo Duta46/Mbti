@@ -10,8 +10,8 @@ if(isset($_GET['id']))
     WHERE mahasiswa.id_mahasiswa='".$id_mahasiswa."'
     ORDER BY tgl_pengerjaan DESC LIMIT 1";
 
-    $run = mysql_query($sql);
-    $data = mysql_fetch_array($run);
+    $run = mysqli_query($truecont, $sql);
+    $data = mysqli_fetch_array($run);
 
 ?>
 <!-- reservation-information -->
@@ -82,8 +82,8 @@ if(isset($_GET['id']))
                 WHERE mahasiswa.id_mahasiswa='".$id_mahasiswa."' AND result.id_result <> '".$data['id_result']."'
                 ORDER BY tgl_pengerjaan DESC, waktu_selesai DESC";
                 
-                $eks_result = mysql_query($sql_result);
-                if(mysql_num_rows($eks_result)>0){
+                $eks_result = mysqli_query($truecont, $sql_result);
+                if(mysqli_num_rows($eks_result)>0){
             ?>
                 <div class="col-sm-12">
 
@@ -102,7 +102,7 @@ if(isset($_GET['id']))
                   <tbody>
             <?php
                     $no=1;
-                    while($hasil_result = mysql_fetch_array($eks_result)){
+                    while($hasil_result = mysqli_fetch_array($eks_result)){
             ?> 
                     <tr>
                         <td><?php echo $no++;?></td>

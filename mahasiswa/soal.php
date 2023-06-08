@@ -52,14 +52,14 @@ $soal       = array();
 //HITUNG JUMLAH SOAL
 $jmlSoal    = 0;
 $sql_soal   = "SELECT * FROM soal";
-$eks_soal   = mysql_query($sql_soal);
-while($hasil_soal = mysql_fetch_array($eks_soal)){
+$eks_soal   = mysqli_query($truecont, $sql_soal);
+while($hasil_soal = mysqli_fetch_array($eks_soal)){
     //JUMLAH KONTEN SOAL
     $sql_konten = "SELECT id_kategori, nama_konten FROM konten_soal 
                 WHERE id_soal='".$hasil_soal['id_soal']."'
                 GROUP BY id_kategori ORDER BY id_kategori";
-    $eks_konten = mysql_query($sql_konten);
-    while($hasil_konten = mysql_fetch_array($eks_konten)){
+    $eks_konten = mysqli_query($truecont, $sql_konten);
+    while($hasil_konten = mysqli_fetch_array($eks_konten)){
         $jmlSoal += 1;
         $soal[$jmlSoal]['id_soal']      = $hasil_soal['id_soal'];
         $soal[$jmlSoal]['nama_soal']    = $hasil_soal['nama_soal'];
@@ -137,18 +137,18 @@ if($jmlSoal>0){
 
         //Ambil Data di Kontan Soal
         $sql = "SELECT * FROM konten_soal WHERE id_soal = '".$id_soal."' AND id_kategori='".$id_kategori."'";
-        $run = mysql_query($sql);
-        $jumlah = mysql_num_rows($run);
+        $run = mysqli_query( $truecont, $sql);
+        $jumlah = mysqli_num_rows($run);
 
         $konten_soal = array();
-        while($data = mysql_fetch_array($run)){
+        while($data = mysqli_fetch_array($run)){
             $konten_soal[$data['kode_soal']] = $data['nama_konten'];
         }
 
         $tb_jawaban  = array();
         $sql_jawaban = "SELECT * FROM jawaban ORDER BY bobot, nama_jawaban";
-        $eks_jawaban = mysql_query($sql_jawaban);
-        while($hasil_jawaban = mysql_fetch_array($eks_jawaban)){
+        $eks_jawaban = mysqli_query($truecont, $sql_jawaban);
+        while($hasil_jawaban = mysqli_fetch_array($eks_jawaban)){
             $tb_jawaban[$hasil_jawaban['id_jawaban']] = $hasil_jawaban['bobot'];
         }
     ?>

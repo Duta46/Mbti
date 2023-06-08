@@ -1,7 +1,3 @@
-
-
-
-
 <footer class="spacer">
         <div class="container">
             <div class="row">
@@ -10,20 +6,13 @@
                     <p><?php echo keterangan;?></p>
                     <p><?php echo author;?></p>
                 </div>              
-                 
-                 
-                 
+                                  
             <!--/.row--> 
         </div>
         <!--/.container-->    
     
     <!--/.footer-bottom--> 
 </footer>
-
-
-
-
-
 
 
 <script src="../assets/wow/wow.min.js"></script>

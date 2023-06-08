@@ -40,9 +40,9 @@ input[type="radio"]:checked {
         <h5 style="text-align: left; margin-top: 25px; color: red;">
         <?php
         $sql_jawaban = "SELECT * FROM jawaban ORDER BY bobot, nama_jawaban";
-        $eks_jawaban = mysql_query($sql_jawaban);
+        $eks_jawaban = mysqli_query($truecont, $sql_jawaban);
         $no=0;
-        while($hasil_jawaban = mysql_fetch_array($eks_jawaban)){
+        while($hasil_jawaban = mysqli_fetch_array($eks_jawaban)){
             echo "<div class='jawaban'>".$no.' - '.$hasil_jawaban['nama_jawaban'].'</div>';
             $no++;
         }

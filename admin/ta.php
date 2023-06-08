@@ -1,8 +1,6 @@
 <div class="row">
-
-  
-
 <?php
+require_once '../inc/koneksi.php';
 $paging = "";
 $where	= "";
 if(isset($_REQUEST['nama']) && $_REQUEST['nama']!='')
@@ -20,8 +18,8 @@ $batas  = 5;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM th_ajaran WHERE 1 $where");
-$jmldata = mysql_num_rows($results);
+$results = mysqli_query($truecont, "SELECT * FROM th_ajaran WHERE 1 $where");
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'ta'.$paging, $jmldata);
@@ -65,13 +63,13 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'ta'.$paging, $jmldata
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT *
+				$sql = mysqli_query($truecont, "SELECT *
 					FROM th_ajaran
 					WHERE 1 $where 
 					ORDER BY nama_th_ajaran DESC 
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
-					while($hasil = mysql_fetch_array($sql)) { 
+				if(mysqli_num_rows($sql)>0){
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 						<td><?php echo $hasil['nama_th_ajaran'];?></td>

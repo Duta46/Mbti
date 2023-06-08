@@ -18,8 +18,6 @@
         text-align: center;
     }
 
-
-
 input[type="radio"]:checked {
     content: "\2022";
     color: red;

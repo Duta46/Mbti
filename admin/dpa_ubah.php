@@ -2,14 +2,14 @@
 $status = FALSE;
 if(isset($_GET['id'])){
 	//CEK DATA DI DATABASE
-	$sql_cek = mysql_query("SELECT * FROM dpa JOIN account a ON dpa.id_dpa=a.id_dpa WHERE dpa.id_dpa='".$_GET['id']."'");
-	if (mysql_num_rows($sql_cek) > 0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM dpa JOIN account a ON dpa.id_dpa=a.id_dpa WHERE dpa.id_dpa='".$_GET['id']."'");
+	if (mysqli_num_rows($sql_cek) > 0){
 		$status = TRUE;
 	}
 }
 
 if($status){
-	$hasil = mysql_fetch_array($sql_cek);
+	$hasil = mysqli_fetch_array($sql_cek);
 ?>
 <div class="row">
 
@@ -51,8 +51,8 @@ if($status){
 				  <select class="selectpicker" id="id_th_ajaran" name="id_th_ajaran" data-live-search="true" data-size="5" data-width="100%" required>
 						<option value="">Pilih Tahun Ajaran</option>
 						<?php
-						$sql_ta = mysql_query("SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
-						while($hasil_ta = mysql_fetch_array($sql_ta)){
+						$sql_ta = mysqli_query($truecont, "SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
+						while($hasil_ta = mysqli_fetch_array($sql_ta)){
 						?>
 							<option value="<?php echo $hasil_ta['id_th_ajaran'];?>" <?php echo ($hasil['id_th_ajaran']==$hasil_ta['id_th_ajaran'])?'selected':'';?>>
 							<?php echo $hasil_ta['nama_th_ajaran'];?>

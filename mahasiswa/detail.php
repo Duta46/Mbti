@@ -15,8 +15,8 @@ $sql = "SELECT result.*, mahasiswa.nama, mahasiswa.nim, tipe_kepribadian.nama as
     WHERE mahasiswa.id_mahasiswa='".$hasil_mhs['id_mahasiswa']."'
     AND result.id_result = $id";
 
-$run = mysql_query($sql);
-$data = mysql_fetch_array($run);
+$run = mysqli_query($truecont, $sql);
+$data = mysqli_fetch_array($run);
 
 ?>
 
@@ -48,9 +48,9 @@ $data = mysql_fetch_array($run);
 <?php
 //KATEGORI
 $kategori = array();
-$sql_kategori = mysql_query("SELECT * FROM kategori ORDER BY nama_kategori ");
+$sql_kategori = mysqli_query($truecont, "SELECT * FROM kategori ORDER BY nama_kategori ");
 
-while($hasil_kategori = mysql_fetch_array($sql_kategori)) { 
+while($hasil_kategori = mysqli_fetch_array($sql_kategori)) { 
     $kategori[$hasil_kategori['id_kategori']] = $hasil_kategori['nama_kategori'];
 }
 ?>
@@ -107,8 +107,8 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
 
     <?php
     $sql_soal = "SELECT * FROM soal ORDER BY no_urut";
-    $eks_soal = mysql_query($sql_soal);
-    while ($hasil_soal = mysql_fetch_array($eks_soal)) {
+    $eks_soal = mysqli_query($truecont, $sql_soal);
+    while ($hasil_soal = mysqli_fetch_array($eks_soal)) {
     ?>
     <div class="col-sm-12">
         <h3 style="text-align: center; color: black; margin-bottom: 30px;" ><?php echo $hasil_soal['nama_soal'];?></h3>
@@ -117,13 +117,13 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
         $sql_konten = "SELECT k.id_kategori, k.nama_kategori 
         FROM konten_soal ks JOIN kategori k ON ks.id_kategori=k.id_kategori
         WHERE id_soal='".$hasil_soal['id_soal']."' GROUP BY id_soal, k.id_kategori ORDER BY id_kategori";
-        $eks_konten = mysql_query($sql_konten);
+        $eks_konten = mysqli_query($truecont, $sql_konten);
 
         //Bar Grafik
         $bar = array();
         $total_bar = 0;
         $idx = 1;
-        while ($hasil_konten = mysql_fetch_array($eks_konten)) {
+        while ($hasil_konten = mysqli_fetch_array($eks_konten)) {
             $nilai = 0;
             //CEK NILAI RESULT
             $sql_nilai = "SELECT nilai FROM nilai n
@@ -131,8 +131,8 @@ while($hasil_kategori = mysql_fetch_array($sql_kategori)) {
             JOIN kategori k ON ks.id_kategori=k.id_kategori
             WHERE id_result='".$data['id_result']."' 
             AND k.id_kategori='".$hasil_konten['id_kategori']."' ";
-            $eks_nilai = mysql_query($sql_nilai);
-            while ($hasil_nilai = mysql_fetch_array($eks_nilai)) {
+            $eks_nilai = mysqli_query($truecont, $sql_nilai);
+            while ($hasil_nilai = mysqli_fetch_array($eks_nilai)) {
                 $nilai += $hasil_nilai['nilai'];
             }
 

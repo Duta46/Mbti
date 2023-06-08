@@ -10,7 +10,7 @@
     WHERE mahasiswa.id_mahasiswa='".$hasil_mhs['id_mahasiswa']."'
     ORDER BY tgl_pengerjaan DESC";
 
-    $query=mysqli_query($command);
+    $query=mysqli_query($truecont, $command);
 
     $row=mysqli_fetch_array($query);
 ?>

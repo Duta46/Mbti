@@ -13,8 +13,8 @@ if(isset($_POST['simpan'])){
 	$kode_soal		= kode_otomatis("konten_soal", "kode_soal", $id_kategori, 3, 2);
 	
 	//Cek Soal
-	$sql_cek = mysql_query("SELECT * FROM konten_soal WHERE id_soal='".$id_soal."' AND id_kategori='".$id_kategori."' AND nama_konten='".$nama_konten."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM konten_soal WHERE id_soal='".$id_soal."' AND id_kategori='".$id_kategori."' AND nama_konten='".$nama_konten."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Konten Soal sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -23,7 +23,7 @@ if(isset($_POST['simpan'])){
 		//Menyimpan data
 		$sql = "INSERT INTO konten_soal (`kode_soal`, `id_kategori`, `id_soal`, `nama_konten`) VALUES ('".$kode_soal."', '".$id_kategori."', '".$id_soal."', '".$nama_konten."')";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Konten Soal Berhasil Disimpan')</script>";
 			//arahkan
@@ -44,8 +44,8 @@ if(isset($_POST['simpan'])){
 	$nama_konten	= trim($_POST['nama_konten']);
 	
 	//Cek Soal
-	$sql_cek = mysql_query("SELECT * FROM konten_soal WHERE id_soal='".$id_soal."' AND id_kategori='".$id_kategori."' AND nama_konten='".$nama_konten."' AND kode_soal<>'".$kode_soal."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query( $truecont, "SELECT * FROM konten_soal WHERE id_soal='".$id_soal."' AND id_kategori='".$id_kategori."' AND nama_konten='".$nama_konten."' AND kode_soal<>'".$kode_soal."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Konten Soal sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -54,7 +54,7 @@ if(isset($_POST['simpan'])){
 		//Menyimpan data
 		$sql = "UPDATE konten_soal SET id_kategori='".$id_kategori."', id_soal='".$id_soal."', nama_konten='".$nama_konten."' WHERE kode_soal='".$kode_soal."'";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont,$sql))
 		{
 			echo "<script>alert('Data Konten Soal Berhasil Disimpan')</script>";
 			//arahkan
@@ -70,7 +70,7 @@ if(isset($_POST['simpan'])){
 }else if(isset($_GET['hapus'])){
 	
 	$sql = "DELETE FROM konten_soal WHERE kode_soal='".$_GET['hapus']."'";
-	if(mysql_query($sql))
+	if(mysqli_query($truecont, $sql))
 		{
 			echo "<script>alert('Data Konten Soal Berhasil Dihapus')</script>";
 			//arahkan

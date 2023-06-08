@@ -13,8 +13,8 @@ if(isset($_POST['simpan'])){
 	$password		= trim($_POST['password']);
 	
 	//Cek NIP dan Tahun Ajaran
-	$sql_cek = mysql_query("SELECT * FROM account WHERE username='".$username."' AND id_account<>'".$id_account."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM account WHERE username='".$username."' AND id_account<>'".$id_account."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Username $username sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -24,14 +24,14 @@ if(isset($_POST['simpan'])){
 		SET `nama`='".$nama."', `username`='".$username."' 
 		WHERE `id_account`='".$id_account."'";
 		
-		if(mysql_query($sql))
+		if(mysqli_query($truecont, $sql))
 		{
 			//Ubah Password
 			if($password!=""){
 				$sql_password = "UPDATE account 
 				SET `password`='".md5($password)."'
 				WHERE `id_account`='".$id_account."'";
-				mysql_query($sql_password);
+				mysqli_query($truecont, $sql_password);
 			}
 
 			//Ubah Sesi Admin

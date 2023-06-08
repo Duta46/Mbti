@@ -1,8 +1,7 @@
 <div class="row">
 
-  
-
 <?php
+require_once '../inc/koneksi.php';
 $paging = "";
 $where	= "";
 if(isset($_REQUEST['nama']) && $_REQUEST['nama']!='')
@@ -29,8 +28,8 @@ $batas  = 10;
 $posisi = $p->cariPosisi($batas);
 
 
-$results = mysql_query("SELECT * FROM mahasiswa m LEFT JOIN dpa ON m.id_dpa=dpa.id_dpa WHERE 1 $where");
-$jmldata = mysql_num_rows($results);
+$results = mysqli_query($truecont, "SELECT * FROM mahasiswa m LEFT JOIN dpa ON m.id_dpa=dpa.id_dpa WHERE 1 $where");
+$jmldata = mysqli_num_rows($results);
 
 $jmlhalaman  = $p->jumlahHalaman($jmldata, $batas);
 $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $jmldata);
@@ -54,13 +53,13 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $
 								<select class="selectpicker" id="id_dpa" name="id_dpa" data-live-search="true" data-size="5" data-width="100%">
 									<option value="">Pilih DPA</option>
 									<?php
-									$sql_ta = mysql_query("SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
-									while($hasil_ta = mysql_fetch_array($sql_ta)){
+									$sql_ta = mysqli_query($truecont, "SELECT * FROM th_ajaran ORDER BY nama_th_ajaran desc");
+									while($hasil_ta = mysqli_fetch_array($sql_ta)){
 									?>
 										<optgroup label="<?php echo $hasil_ta['nama_th_ajaran'];?>">
 									<?php
-										$sql_dpa = mysql_query("SELECT * FROM dpa WHERE id_th_ajaran='".$hasil_ta['id_th_ajaran']."' ORDER BY nip");
-										while($hasil_dpa = mysql_fetch_array($sql_dpa)){
+										$sql_dpa = mysqli_query($truecont, "SELECT * FROM dpa WHERE id_th_ajaran='".$hasil_ta['id_th_ajaran']."' ORDER BY nip");
+										while($hasil_dpa = mysqli_fetch_array($sql_dpa)){
 									?>
 										<option value="<?php echo $hasil_dpa['id_dpa'];?>" <?php echo ($hasil_dpa['id_dpa']==$id_dpa)?'selected':'';?>><?php echo $hasil_dpa['nip'].'-'.$hasil_dpa['nama'];?></option>
 									<?php
@@ -104,13 +103,13 @@ $linkHalaman = $p->navHalaman($_GET['page'], $jmlhalaman, 'mahasiswa'.$paging, $
 			  </thead>
 			  <tbody>
 				<?php
-				$sql = mysql_query("SELECT m.id_mahasiswa, m.nim, m.nama, m.alamat, m.email, m.foto, m.indeks_prestasi, dpa.nip, dpa.nama as nama_dpa 
+				$sql = mysqli_query($truecont, "SELECT m.id_mahasiswa, m.nim, m.nama, m.alamat, m.email, m.foto, m.indeks_prestasi, dpa.nip, dpa.nama as nama_dpa 
 					FROM mahasiswa m LEFT JOIN dpa ON m.id_dpa=dpa.id_dpa 
 					WHERE 1 $where 
 					ORDER BY nim 
 					LIMIT $posisi,$batas");
-				if(mysql_num_rows($sql)>0){
-					while($hasil = mysql_fetch_array($sql)) { 
+				if(mysqli_num_rows($sql)>0){
+					while($hasil = mysqli_fetch_array($sql)) { 
 				?>
 					<tr>
 					<td>

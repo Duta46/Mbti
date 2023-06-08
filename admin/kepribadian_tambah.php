@@ -14,8 +14,8 @@
 			  		<h4 style="text-align: center; margin-top: 0px;">
 		            <?php
 		            $sql_kategori = "SELECT * FROM kategori ORDER BY id_kategori";
-		            $eks_kategori = mysql_query($sql_kategori);
-		            while($hasil_kategori = mysql_fetch_array($eks_kategori)){
+		            $eks_kategori = mysqli_query($truecont, $sql_kategori);
+		            while($hasil_kategori = mysqli_fetch_array($eks_kategori)){
 		                $id_kategori = substr($hasil_kategori['id_kategori'], 0,1);
 		                echo '<b>'.$id_kategori.'</b>'.' - '.$hasil_kategori['nama_kategori'].'&nbsp; &nbsp; &nbsp; &nbsp;';
 		            }

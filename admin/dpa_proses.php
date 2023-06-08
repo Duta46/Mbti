@@ -17,15 +17,15 @@ if(isset($_POST['simpan'])){
 	$id_dpa			= kode_otomatis("dpa", "id_dpa", "", "", "");
 	
 	//Cek NIP dan Tahun Ajaran
-	$sql_cek = mysql_query("SELECT * FROM dpa WHERE id_th_ajaran='".$id_th_ajaran."' AND nip='".$nip."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM dpa WHERE id_th_ajaran='".$id_th_ajaran."' AND nip='".$nip."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Tahun Ajaran dan NIP $nip sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
 	}else{
 		//Cek Account
-		$sql_cek = mysql_query("SELECT * FROM account WHERE username='".$username."' AND divisi='DPA'");
-		if (mysql_num_rows($sql_cek)>0){
+		$sql_cek = mysqli_query($truecont, "SELECT * FROM account WHERE username='".$username."' AND divisi='DPA'");
+		if (mysqli_num_rows($sql_cek)>0){
 			echo "<script>alert('Username $username sudah ada sebelumnya')</script>";
 			//arahkan
 			echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -57,20 +57,20 @@ if(isset($_POST['simpan'])){
 			//Menyimpan data
 			$sql = "INSERT INTO dpa (`id_dpa`, `id_th_ajaran`, `nip`, `nama`, `email`, `no_hp`, `foto`) VALUES ('".$id_dpa."', '".$id_th_ajaran."', '".$nip."', '".$nama."', '".$email."', '".$no_hp."', '".$nama_foto."')";
 			
-			if(mysql_query($sql))
+			if(mysqli_query($truecont, $sql))
 			{
 				$id_account			= kode_otomatis("account", "id_account", "", "", "");
 				//Simpan Account
 				$sql_account = "INSERT INTO account (`id_account`, `id_dpa`, `nama`, `username`, `password`, `divisi`) 
 				VALUES ('".$id_account."', '".$id_dpa."', '".$nama."', '".$username."', '".md5($password)."', 'DPA')";
-				if(mysql_query($sql_account))
+				if(mysqli_query($truecont,$sql_account))
 				{
 					echo "<script>alert('Data DPA Berhasil Disimpan')</script>";
 					//arahkan
 					echo "<script>window.location='index.php?hal=dpa';</script>";	
 				}else{
 					//Hapus DPA 
-					mysq_query("DELETE FROM dpa WHERE id_dpa='".$id_dpa."'");
+					mysqli_query($truecont, "DELETE FROM dpa WHERE id_dpa='".$id_dpa."'");
 
 					echo "<script>alert('Data DPA Gagal Disimpan')</script>";
 					//arahkan
@@ -97,15 +97,15 @@ if(isset($_POST['simpan'])){
 	$password		= trim($_POST['password']);
 	
 	//Cek NIP dan Tahun Ajaran
-	$sql_cek = mysql_query("SELECT * FROM dpa WHERE id_th_ajaran='".$id_th_ajaran."' AND nip='".$nip."' AND id_dpa<>'".$id_dpa."'");
-	if (mysql_num_rows($sql_cek)>0){
+	$sql_cek = mysqli_query($truecont, "SELECT * FROM dpa WHERE id_th_ajaran='".$id_th_ajaran."' AND nip='".$nip."' AND id_dpa<>'".$id_dpa."'");
+	if (mysqli_num_rows($sql_cek)>0){
 		echo "<script>alert('Tahun Ajaran dan NIP $nip sudah ada sebelumnya')</script>";
 		//arahkan
 		echo "<script>window.location='javascript:history.go(-1)';</script>";	
 	}else{
 		//Cek Account
-		$sql_cek = mysql_query("SELECT * FROM account WHERE username='".$username."' AND divisi='DPA' AND id_dpa<>'".$id_dpa."'");
-		if (mysql_num_rows($sql_cek)>0){
+		$sql_cek = mysqli_query($truecont, "SELECT * FROM account WHERE username='".$username."' AND divisi='DPA' AND id_dpa<>'".$id_dpa."'");
+		if (mysqli_num_rows($sql_cek)>0){
 			echo "<script>alert('Username $username sudah ada sebelumnya')</script>";
 			//arahkan
 			echo "<script>window.location='javascript:history.go(-1)';</script>";	
@@ -141,26 +141,26 @@ if(isset($_POST['simpan'])){
 			SET `id_th_ajaran`='".$id_th_ajaran."', `nip`='".$nip."', `nama`='".$nama."', `email`='".$email."', `no_hp`='".$no_hp."' 
 			WHERE `id_dpa`='".$id_dpa."'";
 			
-			if(mysql_query($sql))
+			if(mysqli_query($truecont, $sql))
 			{
 				//Ubah Foto
 				if($nama_foto!=""){
 					$sql_foto = "UPDATE dpa 
 					SET `foto`='".$nama_foto."'
 					WHERE `id_dpa`='".$id_dpa."'";
-					mysql_query($sql_foto);
+					mysqli_query($truecont, $sql_foto);
 				}
 				//Ubah Account
 				$sql_account = "UPDATE account 
 				SET `nama`='".$nama."', `username`'".$username."'
 				WHERE `id_dpa`='".$id_dpa."'";
-				mysql_query($sql_account);
+				mysqli_query($truecont, $sql_account);
 				//Ubah Password
 				if($password!=""){
 					$sql_password = "UPDATE account 
 					SET `password`='".md5($password)."'
 					WHERE `id_dpa`='".$id_dpa."'";
-					mysql_query($sql_password);
+					mysqli_query( $truecont, $sql_password);
 				}
 
 				echo "<script>alert('Data DPA Berhasil Diubah')</script>";
@@ -178,10 +178,10 @@ if(isset($_POST['simpan'])){
 }else if(isset($_GET['hapus'])){
 	$foto = $_GET['foto'];
 	$sql = "DELETE FROM dpa WHERE id_dpa='".$_GET['hapus']."'";
-	if(mysql_query($sql))
+	if(mysqli_query($truecont, $sql))
 	{
 		//Hapus Account
-		mysql_query("DELETE FROM account WHERE id_dpa='".$_GET['hapus']."'");
+		mysqli_query($truecont, "DELETE FROM account WHERE id_dpa='".$_GET['hapus']."'");
 
 		//Hapus Foto
 		$folder = "../uploaded/dpa/".$foto;
