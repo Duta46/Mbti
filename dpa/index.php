@@ -13,8 +13,8 @@ $sql_dpa = "SELECT * FROM th_ajaran ta
         JOIN dpa ON ta.id_th_ajaran=dpa.id_th_ajaran
         JOIN account a ON dpa.id_dpa=a.id_dpa 
         WHERE username='".$_SESSION['account_myers_briggs']['username']."' AND divisi='DPA'";
-$eks_dpa	= mysql_query($sql_dpa);
-$hasil_dpa	= mysql_fetch_array($eks_dpa);
+$eks_dpa	= mysqli_query($truecont, $sql_dpa);
+$hasil_dpa	= mysqli_fetch_array($eks_dpa);
 ?>
 <!DOCTYPE HTML>
 
